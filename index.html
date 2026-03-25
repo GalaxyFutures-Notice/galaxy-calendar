@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galaxy Futures — Trading Risk Calendar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0a0f1e;
+      --ink-2: #1e2a45;
+      --blue: #1a56db;
+      --blue-light: #eff6ff;
+      --gold: #c9a84c;
+      --slate: #64748b;
+      --border: #e2e8f0;
+      --bg: #f7f8fc;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      background: var(--blue);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark svg { width: 20px; height: 20px; fill: white; }
+
+    .logo-text {
+      font-family: 'DM Serif Display', serif;
+      color: white;
+      font-size: 18px;
+      letter-spacing: 0.3px;
+    }
+
+    .logo-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .header-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 72px 48px 56px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 5vw, 58px);
+      line-height: 1.1;
+      color: var(--ink);
+      max-width: 680px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--blue);
+    }
+
+    .hero-desc {
+      margin-top: 20px;
+      font-size: 15px;
+      color: var(--slate);
+      max-width: 520px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ── YEAR NAV ── */
+    .year-nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 40px;
+    }
+
+    .year-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: white;
+      color: var(--slate);
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .year-btn.active, .year-btn:hover {
+      background: var(--ink);
+      color: white;
+      border-color: var(--ink);
+    }
+
+    /* ── GRID ── */
+    .grid-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px 80px;
+    }
+
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── MONTH CARD ── */
+    .month-card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .month-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--blue);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .month-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 8px 32px rgba(26,86,219,0.10);
+      transform: translateY(-2px);
+    }
+
+    .month-card:hover::before { transform: scaleX(1); }
+
+    .month-card.unavailable {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .month-card.current {
+      border-color: var(--blue);
+      background: linear-gradient(135deg, #f0f5ff 0%, white 60%);
+    }
+
+    .month-card.current::before { transform: scaleX(1); }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .month-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 48px;
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .month-card.unavailable .month-num { color: var(--border); }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      margin-top: 6px;
+    }
+
+    .month-card.available .status-dot { background: #22c55e; }
+    .month-card.current .status-dot {
+      background: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,86,219,0.2);
+    }
+
+    .card-bottom {}
+
+    .month-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .month-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--slate);
+    }
+
+    .current-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: var(--blue-light);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-top: 6px;
+    }
+
+    .upcoming-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--slate);
+      background: #f1f5f9;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-top: 6px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--slate);
+      letter-spacing: 0.5px;
+    }
+
+    /* ── RULE LINE ── */
+    .rule {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 48px;
+    }
+
+    .rule hr {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      header { padding: 0 20px; }
+      .hero { padding: 40px 20px 36px; }
+      .year-nav { padding: 0 20px; }
+      .grid-section { padding: 0 20px 60px; }
+      footer { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
+      .month-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .month-num { font-size: 36px; }
+    }
+
+    /* ── ANIMATION ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero { animation: fadeUp 0.5s ease both; }
+    .month-card { animation: fadeUp 0.4s ease both; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <div>
+      <div class="logo-text">Galaxy Futures</div>
+      <div class="logo-sub">Risk Management</div>
+    </div>
+  </div>
+  <div class="header-tag">Trading Risk Calendar</div>
+</header>
+
+<section class="hero">
+  <div class="hero-label">// Monthly Risk Calendar Portal</div>
+  <h1>Derivatives Risk<br><em>Calendar</em> 2026</h1>
+  <p class="hero-desc">Monthly overview of key trading risk events — delivery dates, margin adjustments, position limits and option expirations across all major Chinese exchanges.</p>
+</section>
+
+<div class="rule"><hr></div>
+
+<div class="year-nav">
+  <button class="year-btn active">2026</button>
+  <button class="year-btn" style="opacity:0.4; cursor:default;" disabled>2025</button>
+</div>
+
+<section class="grid-section">
+  <div class="month-grid" id="monthGrid"></div>
+</section>
+
+<footer>
+  <div class="footer-text">© 2026 Galaxy Futures · Risk Management Division</div>
+  <div class="footer-text">Updated monthly · All times CST</div>
+</footer>
+
+<script>
+  const MONTHS = [
+    'January','February','March','April','May','June',
+    'July','August','September','October','November','December'
+  ];
+
+  // ── 配置：在这里设置哪些月份有日历文件 ──
+  // 格式: "YYYY-MM" → 文件路径
+  const AVAILABLE = {
+    "2026-04": "calendars/2026-04.html",
+    // 下个月发布后，添加一行:
+    // "2026-05": "calendars/2026-05.html",
+  };
+
+  const now = new Date();
+  const currentYear = 2026;
+  const currentMonth = now.getFullYear() === 2026 ? now.getMonth() + 1 : null;
+
+  const grid = document.getElementById('monthGrid');
+
+  for (let m = 1; m <= 12; m++) {
+    const key = `${currentYear}-${String(m).padStart(2,'0')}`;
+    const isAvailable = !!AVAILABLE[key];
+    const isCurrent = m === currentMonth;
+    const isFuture = currentMonth ? m > currentMonth : false;
+
+    const card = document.createElement(isAvailable ? 'a' : 'div');
+    if (isAvailable) {
+      card.href = AVAILABLE[key];
+      card.target = '_blank';
+    }
+
+    card.className = `month-card ${isAvailable ? 'available' : 'unavailable'} ${isCurrent ? 'current' : ''}`;
+    card.style.animationDelay = `${(m - 1) * 0.04}s`;
+
+    let badge = '';
+    if (isCurrent && isAvailable) badge = '<div class="current-badge">● Current Month</div>';
+    else if (isFuture && !isAvailable) badge = '<div class="upcoming-badge">Coming Soon</div>';
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="month-num">${String(m).padStart(2,'0')}</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">${MONTHS[m-1]}</div>
+        <div class="month-year">2026</div>
+        ${badge}
+      </div>
+    `;
+
+    grid.appendChild(card);
+  }
+</script>
+
+</body>
+</html>
