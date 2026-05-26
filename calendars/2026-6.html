@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>June 2026 - Risk Calendar</title>
+    <style>
+        :root { --galaxy-blue: #1a56db; --slate-900: #0f172a; --slate-600: #475569; --slate-200: #e2e8f0; --bg-page: #f8fafc; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg-page); margin: 0; padding: 30px; }
+        .main-container { max-width: 1440px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid var(--slate-200); position: relative; padding-bottom: 30px; }
+        .header { padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .title { font-size: 32px; font-weight: 800; color: var(--slate-900); }
+        .brand-box { text-align: right; border-left: 5px solid var(--galaxy-blue); padding-left: 20px; }
+        .week-strip { display: grid; grid-template-columns: repeat(7, 1fr); background: var(--slate-900); color: white; }
+        .week-day { padding: 15px 0; text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); background: var(--slate-200); gap: 1px; }
+        .day-cell { background: white; min-height: 150px; padding: 10px; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
+        .day-cell:hover { background: #f8fafc; }
+        
+        .holiday { background: #f1f5f9 !important; color: #94a3b8; cursor: default; }
+        .holiday-label { font-size: 10px; color: #94a3b8; font-weight: 600; margin-top: auto; text-align: center; border-top: 1px dashed #cbd5e1; padding-top: 5px; }
+        
+        .date-label { text-align: right; font-size: 18px; font-weight: 800; color: #64748b; margin-bottom: 8px; }
+        .this-month .date-label { color: var(--slate-900); }
+        
+        /* 核心修改：合并后的 Tag 样式 */
+        .event-tag { 
+            background: #f1f5f9; 
+            border-left: 4px solid var(--galaxy-blue); 
+            border-radius: 4px; 
+            padding: 6px 8px; 
+            margin-bottom: 6px; 
+            line-height: 1.3;
+        }
+        .event-title { 
+            font-size: 10px; 
+            font-weight: 800; 
+            color: var(--galaxy-blue); 
+            display: block;
+            margin-bottom: 2px;
+        }
+        .event-ex { 
+            font-size: 10px; 
+            font-weight: 600; 
+            color: var(--slate-900); 
+            display: block;
+        }
+        
+        .floating-qr { position: fixed; bottom: 30px; right: 30px; width: 120px; cursor: zoom-in; z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 10px; border: 2px solid white; }
+        .appendix-section { max-width: 1440px; margin: 30px auto; background: white; border-radius: 20px; padding: 30px 40px; text-align: center; border: 1px solid var(--slate-200); }
+        .appendix-img { max-width: 80%; height: auto; border-radius: 8px; cursor: zoom-in; }
+        #img-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; cursor: zoom-out; justify-content: center; align-items: center; }
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(8px); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 600px; border-radius: 20px; padding: 40px; position: relative; max-height: 80vh; overflow-y: auto; }
+        .red-info { background: #fff1f2; color: #e11d48; padding: 10px 15px; border-radius: 8px; margin-top: 6px; font-size: 13px; font-weight: 600; border-left: 4px solid #e11d48; }
+        .close { position: absolute; right: 25px; top: 20px; font-size: 24px; cursor: pointer; color: #cbd5e1; }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <div class="header">
+        <div class="title">June 2026 Trading Calendar</div>
+        <div class="brand-box"><div style="font-weight:900;font-size:24px;color:#003371;">GALAXY FUTURES</div></div>
+    </div>
+    <div class="week-strip">
+        <div class="week-day">Sun</div><div class="week-day">Mon</div><div class="week-day">Tue</div>
+        <div class="week-day">Wed</div><div class="week-day">Thu</div><div class="week-day">Fri</div>
+        <div class="week-day">Sat</div>
+    </div>
+    <div class="calendar-grid">
+    <div class="day-cell other-month" onclick="openModal('2026-05-31')"><div class="date-label">31</div></div><div class="day-cell this-month" onclick="openModal('2026-06-01')"><div class="date-label">1</div>
+                <div class="event-tag">
+                    <span class="event-title">Rolling Delivery Risk Reminder</span>
+                    <span class="event-ex">GFEX, CZCE, DCE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-02')"><div class="date-label">2</div></div><div class="day-cell this-month" onclick="openModal('2026-06-03')"><div class="date-label">3</div></div><div class="day-cell this-month" onclick="openModal('2026-06-04')"><div class="date-label">4</div></div><div class="day-cell this-month" onclick="openModal('2026-06-05')"><div class="date-label">5</div>
+                <div class="event-tag">
+                    <span class="event-title">Last Trading Day Reminder</span>
+                    <span class="event-ex">CZCE</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Option Expiration Date Reminder</span>
+                    <span class="event-ex">GFEX</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-06')"><div class="date-label">6</div></div><div class="day-cell this-month" onclick="openModal('2026-06-07')"><div class="date-label">7</div></div><div class="day-cell this-month" onclick="openModal('2026-06-08')"><div class="date-label">8</div>
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">INE, SHFE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-09')"><div class="date-label">9</div>
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">DCE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-10')"><div class="date-label">10</div>
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">SHFE, INE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-11')"><div class="date-label">11</div>
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">SHFE, GFEX</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Option Expiration Date Reminder</span>
+                    <span class="event-ex">CZCE, INE</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Position Limit Reminder</span>
+                    <span class="event-ex">GFEX, DCE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-12')"><div class="date-label">12</div>
+                <div class="event-tag">
+                    <span class="event-title">Last Trading Day Reminder</span>
+                    <span class="event-ex">GFEX, DCE, CZCE, CFFEX</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-13')"><div class="date-label">13</div></div><div class="day-cell this-month" onclick="openModal('2026-06-14')"><div class="date-label">14</div></div><div class="day-cell this-month" onclick="openModal('2026-06-15')"><div class="date-label">15</div>
+                <div class="event-tag">
+                    <span class="event-title">Last Trading Day Reminder</span>
+                    <span class="event-ex">SHFE, INE</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">CZCE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-16')"><div class="date-label">16</div>
+                <div class="event-tag">
+                    <span class="event-title">Option Expiration Date Reminder</span>
+                    <span class="event-ex">SHFE, DCE</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">INE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-17')"><div class="date-label">17</div></div><div class="day-cell this-month" onclick="openModal('2026-06-18')"><div class="date-label">18</div>
+                <div class="event-tag">
+                    <span class="event-title">Position Limit Reminder</span>
+                    <span class="event-ex">GFEX, DCE</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">DCE, GFEX</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-19')"><div class="date-label">19</div></div><div class="day-cell this-month" onclick="openModal('2026-06-20')"><div class="date-label">20</div></div><div class="day-cell this-month" onclick="openModal('2026-06-21')"><div class="date-label">21</div></div><div class="day-cell this-month" onclick="openModal('2026-06-22')"><div class="date-label">22</div>
+                <div class="event-tag">
+                    <span class="event-title">Future and Option Expiration Date Reminder</span>
+                    <span class="event-ex">CFFEX</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-23')"><div class="date-label">23</div>
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">INE, SHFE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-24')"><div class="date-label">24</div>
+                <div class="event-tag">
+                    <span class="event-title">Option Expiration Date Reminder</span>
+                    <span class="event-ex">SSE, SZSE, SHFE</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">INE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-25')"><div class="date-label">25</div>
+                <div class="event-tag">
+                    <span class="event-title">Last Trading Day Reminder</span>
+                    <span class="event-ex">DCE</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">INE, SHFE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-26')"><div class="date-label">26</div>
+                <div class="event-tag">
+                    <span class="event-title">Option Expiration Date Reminder</span>
+                    <span class="event-ex">CZCE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-27')"><div class="date-label">27</div></div><div class="day-cell this-month" onclick="openModal('2026-06-28')"><div class="date-label">28</div></div><div class="day-cell this-month" onclick="openModal('2026-06-29')"><div class="date-label">29</div>
+                <div class="event-tag">
+                    <span class="event-title">Last Trading Day Reminder</span>
+                    <span class="event-ex">INE</span>
+                </div>
+                </div><div class="day-cell this-month" onclick="openModal('2026-06-30')"><div class="date-label">30</div>
+                <div class="event-tag">
+                    <span class="event-title">Margin Requirement Reminder</span>
+                    <span class="event-ex">CZCE, GFEX, DCE, INE, SHFE</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Last Trading Day Reminder</span>
+                    <span class="event-ex">INE, SHFE, DCE</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Position Limit Reminder</span>
+                    <span class="event-ex">ALL Exchanges (excluding CFFEX)</span>
+                </div>
+                
+                <div class="event-tag">
+                    <span class="event-title">Position Adjustment Reminder</span>
+                    <span class="event-ex">SHFE & INE</span>
+                </div>
+                </div><div class="day-cell other-month" onclick="openModal('2026-07-01')"><div class="date-label">1</div></div><div class="day-cell other-month" onclick="openModal('2026-07-02')"><div class="date-label">2</div></div><div class="day-cell other-month" onclick="openModal('2026-07-03')"><div class="date-label">3</div></div><div class="day-cell other-month" onclick="openModal('2026-07-04')"><div class="date-label">4</div></div>
+    </div>
+</div>
+
+
+
+<div id="img-overlay" onclick="this.style.display='none'"><img id="overlay-img" src=""></div>
+<div id="modal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close" onclick="closeModal()">✕</span>
+        <h2 id="m-date" style="margin-top:0;"></h2>
+        <div id="m-list"></div>
+    </div>
+</div>
+
+<script>
+    const data = {"2026-06-01": [{"title": "Rolling Delivery Risk Reminder", "exchange": "GFEX, CZCE, DCE", "details": ["GFEX: The LC, SI, PS, PT, PD2606 contracts have entered the mandatory matching for physical delivery.", "CZCE: The SH, PX, PL2606 contracts have entered the mandatory matching for physical delivery.", "DCE: The B, JD, EG, RR, EB, I, J, JM, PG, BZ2606 contracts have entered the mandatory matching for physical delivery."]}], "2026-06-05": [{"title": "Last Trading Day Reminder", "exchange": "CZCE", "details": ["CZCE: Last Trading Day of the ZC2606 Contract and Cancellation of Portfolio Margin Benefit."]}, {"title": "Option Expiration Date Reminder", "exchange": "GFEX", "details": ["GFEX: Expiration Date of the 2607 Option Contracts."]}], "2026-06-08": [{"title": "Margin Requirement Reminder", "exchange": "INE, SHFE", "details": ["INE: Cancellation of Large-side Margin Benefit for BC and NR2606 Contracts at Settlement.", "SHFE: Cancellation of Large-side Margin Benefit for 2606 Contracts (excluding FU) at Settlement."]}], "2026-06-09": [{"title": "Margin Requirement Reminder", "exchange": "DCE", "details": ["DCE: Adjustment of Hedging Margin to 20% for L, PP, and V2606 Contracts at Settlement."]}], "2026-06-10": [{"title": "Margin Requirement Reminder", "exchange": "SHFE, INE", "details": ["SHFE: At settlement, the exchange margin requirement for the 2606 contracts (excluding FU) will be adjusted to 20%.", "INE: At settlement, the exchange margin requirement for the BC, NR2606 contracts will be adjusted to 20%."]}], "2026-06-11": [{"title": "Margin Requirement Reminder", "exchange": "SHFE, GFEX", "details": ["SHFE: At settlement, the exchange margin requirement for the FU2607 contract will be adjusted to 15%, and for the FU2608 contract will be adjusted to 10%.", "GFEX: At settlement, the exchange margin requirement for the 2607 contracts (excluding SI) will be adjusted to 10%."]}, {"title": "Option Expiration Date Reminder", "exchange": "CZCE, INE", "details": ["CZCE: Expiration Date of the 2607 option contracts.", "INE: Expiration Date of the 2607 option contracts."]}, {"title": "Position Limit Reminder", "exchange": "GFEX, DCE", "details": ["GFEX: At settlement, the position limit tiers for the 2607 contracts (excluding SI) will be adjusted.", "DCE: At settlement, the position limit tiers for the JD, LH, I2607 contracts will be adjusted."]}], "2026-06-12": [{"title": "Last Trading Day Reminder", "exchange": "GFEX, DCE, CZCE, CFFEX", "details": ["GFEX: The last trading day for the 2606 contracts, and the portfolio margin benefit for combination positions will be canceled.", "DCE: Excluding JD, PG, EB, EG, BZ, the 2606 contracts in DCE will reach their last trading day, and the portfolio margin benefit for combination positions will be canceled.", "CZCE: 2606 contracts will reach their last trading day (excluding ZC), and the portfolio margin benefit for combination positions will be canceled.", "CFFEX: CGB 2606 contracts will reach their last trading day."]}], "2026-06-15": [{"title": "Last Trading Day Reminder", "exchange": "SHFE, INE", "details": ["SHFE: 2606 contracts will reach their last trading day (excluding FU).", "INE: BC, NR2606 will reach their last trading day."]}, {"title": "Margin Requirement Reminder", "exchange": "CZCE", "details": ["CZCE: At settlement, the exchange margin requirement for the 2607 contracts (excluding CJ, PX) will be adjusted to 10%, and for PX, CJ 2606 will be adjusted to 15%. At settlement, the position limit tiers for the 2607 contracts will be adjusted."]}], "2026-06-16": [{"title": "Option Expiration Date Reminder", "exchange": "SHFE, DCE", "details": ["SHFE: Expiration Date of the FU2607 option contracts.", "DCE: Expiration Date of the 2607 option contracts."]}, {"title": "Margin Requirement Reminder", "exchange": "INE", "details": ["INE: At settlement, the exchange margin requirement for the EC2606 contracts will be adjusted to 20%. At settlement, the position limit tiers for EC2606 contracts will be adjusted."]}], "2026-06-18": [{"title": "Position Limit Reminder", "exchange": "GFEX, DCE", "details": ["GFEX: At settlement, the position limit tiers for the SI2607 contracts will be adjusted.", "DCE: At settlement, the position limit tiers for the 2607 contracts (excluding JD, LH and I) will be adjusted."]}, {"title": "Margin Requirement Reminder", "exchange": "DCE, GFEX", "details": ["DCE: Adjustment of Margin to 10% for 2607 contracts (excluding L, PP, and V) at the settlement.", "GFEX: Adjustment of Margin to 10% for SI2607 contracts at the settlement."]}], "2026-06-22": [{"title": "Future and Option Expiration Date Reminder", "exchange": "CFFEX", "details": ["CFFEX: The 2606 Equity Index futures and options contracts will reach their expiration date."]}], "2026-06-23": [{"title": "Margin Requirement Reminder", "exchange": "INE, SHFE", "details": ["INE: Cancellation of Large-side Margin Benefit for SC and LU2607 Contracts at Settlement.", "SHFE: Cancellation of Large-side Margin Benefit for FU2607 Contracts at Settlement."]}], "2026-06-24": [{"title": "Option Expiration Date Reminder", "exchange": "SSE, SZSE, SHFE", "details": ["SSE, SZSE: The June stock option contracts will reach their expiration date.", "SHFE: The 2607 option contracts will reach the expiration date."]}, {"title": "Margin Requirement Reminder", "exchange": "INE", "details": ["INE: At settlement, the exchange margin requirement for the EC2606 contracts will be adjusted to 30%. At settlement, the position limit tiers for EC2606 contracts will be adjusted."]}], "2026-06-25": [{"title": "Last Trading Day Reminder", "exchange": "DCE", "details": ["DCE: JD, PG, EB, EG, BZ2607 contracts will reach their last trading day, and the portfolio margin benefit for combination positions will be canceled."]}, {"title": "Margin Requirement Reminder", "exchange": "INE, SHFE", "details": ["INE: At settlement, the exchange margin requirement for SC and LU 2607 will be adjusted to 20%.", "SHFE: At settlement, the exchange margin requirement for FU 2607 will be adjusted to 20%."]}], "2026-06-26": [{"title": "Option Expiration Date Reminder", "exchange": "CZCE", "details": ["CZCE: The PX 2608 option contracts will reach the expiration date."]}], "2026-06-29": [{"title": "Last Trading Day Reminder", "exchange": "INE", "details": ["INE: EC2606 contracts will reach their last trading day."]}], "2026-06-30": [{"title": "Margin Requirement Reminder", "exchange": "CZCE, GFEX, DCE, INE, SHFE", "details": ["CZCE: At settlement, the exchange margin requirement for the 2607 contracts will be adjusted to 20%, and for PX2608 contracts will be adjusted to 10%.", "GFEX: At settlement, the exchange margin requirement for the 2607 contracts will be adjusted to 20%.", "DCE: At settlement, the exchange margin requirement for the 2607 contracts will be adjusted to 20%. Among them, the hedging margin requirement for the L, PP, and V2607 contracts will be adjusted to 15%.", "INE: At settlement, the exchange margin requirement for the BC and NR2607 contracts will be adjusted to 15%, and for the BC, NR, LU, and SC2608 contracts will be adjusted to 10%.", "SHFE: At settlement, the exchange margin requirement for the 2607 contracts (excluding FU) will be adjusted to 15%, and for the 2608 contracts (excluding FU) will be adjusted to 10%."]}, {"title": "Last Trading Day Reminder", "exchange": "INE, SHFE, DCE", "details": ["INE: The SC2607 and LU2607 contracts will reach their last trading day.", "SHFE: The FU2607 contracts will reach their last trading day.", "DCE: The Monthly Average Price futures contracts of L, PP and V2607 will reach their last trading day."]}, {"title": "Position Limit Reminder", "exchange": "ALL Exchanges (excluding CFFEX)", "details": ["At settlement, the position limit tiers will be adjusted."]}, {"title": "Position Adjustment Reminder", "exchange": "SHFE & INE", "details": ["SHFE: CU, AL, ZN and PB2607 = Multiples of 5 lots", "SHFE: AU and AD2607 = Multiples of 3 lots", "SHFE: AG, SN, SP and BR2607 = Multiples of 2 lots", "SHFE: NI2607 = Multiples of 6 lots", "SHFE: RB, HC, WR2607 = Multiples of 30 lots", "SHFE: SS2607 = Multiples of 12 lots", "SHFE: AO2607 = Multiples of 15 lots", "INE: BC2607 = Multiples of 5 lots", "INE: NR2607 = Multiples of 10 lots"]}]};
+    function zoomImg(src) { document.getElementById('overlay-img').src = src; document.getElementById('img-overlay').style.display = 'flex'; }
+    function openModal(d) {
+        const items = data[d]; if(!items) return;
+        document.getElementById('m-date').innerText = d;
+        const list = document.getElementById('m-list'); list.innerHTML = '';
+        items.forEach(ev => {
+            list.innerHTML += `
+                <div style="margin-top:20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 5px;">
+                    <div style="font-weight:800; color:var(--galaxy-blue); font-size:16px;">${ev.title}</div>
+                    <div style="font-weight:700; color:var(--slate-900); font-size:13px; margin-top:4px;">${ev.exchange}</div>
+                </div>`;
+            ev.details.forEach(det => { list.innerHTML += `<div class="red-info">${det}</div>`; });
+        });
+        document.getElementById('modal').style.display = 'flex';
+    }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+</script>
+</body>
+</html>
+    
