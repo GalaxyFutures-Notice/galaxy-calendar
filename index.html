@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galaxy Futures — Trading Risk Calendar & Updates</title>
+  <title>Galaxy Futures — Trading Risk Calendar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -283,7 +283,7 @@
       margin-top: 6px;
     }
 
-    /* ── PDF UPDATES SECTION ── */
+    /* ── MARKET UPDATES SECTION ── */
     .reports-section {
       max-width: 1200px;
       margin: 0 auto;
@@ -355,6 +355,7 @@
 
     .report-badge.weekly { background: #e0f2fe; color: #0369a1; }
     .report-badge.monthly { background: #fef3c7; color: #b45309; }
+    .report-badge.excel { background: #dcfce7; color: #166534; }
 
     .report-date {
       font-family: 'DM Mono', monospace;
@@ -466,7 +467,7 @@
 <div class="hero">
   <div class="hero-label">Market Risk & Operational Schedule</div>
   <h1>Institutional <em>Trading</em> Calendar & Market Updates</h1>
-  <p class="hero-desc">Key operational dates, market closures, option exercise timelines, and weekly/monthly PDF updates for internationalized domestic futures contracts.</p>
+  <p class="hero-desc">Key operational dates, market closures, option exercise timelines, and weekly/monthly reports for internationalized domestic futures contracts.</p>
 </div>
 
 <div class="rule"><hr></div>
@@ -642,12 +643,11 @@
 </footer>
 
 <script>
-  // PDF 报告配置文件（后续更新只需在此数组添加新对象）
+  // 报告配置文件（可根据需要添加 PDF 或 Excel 文件）
   const reportsData = [
-     {
+    {
       title: "Monthly Market Update — October",
       type: "monthly",
-      fileType: "excel",
       date: "2026-11-06",
       file: "reports/Galaxy Futures - Monthly Wrap of Trading Volume & Turnover in China Futures Market - October. 2026.xlsx"
     }
@@ -670,21 +670,21 @@
       const card = document.createElement('div');
       card.className = 'report-card';
       
-      // 根据文件类型判断按钮文案与颜色/标签
-      const isExcel = report.fileType === 'excel' || report.file.endsWith('.xlsx') || report.file.endsWith('.xls');
-      const actionText = isExcel ? 'Download Excel' : 'View PDF';
-      const badgeClass = isExcel ? 'excel-badge' : report.type;
+      const isExcel = report.file.endsWith('.xlsx') || report.file.endsWith('.xls');
+      const actionText = isExcel ? 'Download Excel' : 'View / Download PDF';
+      const badgeText = isExcel ? 'Excel' : report.type;
+      const badgeClass = isExcel ? 'excel' : report.type;
 
       card.innerHTML = `
         <div>
           <div class="report-meta">
-            <span class="report-badge ${badgeClass}">${report.type} ${isExcel ? '· EXCEL' : '· PDF'}</span>
+            <span class="report-badge ${badgeClass}">${report.type} · ${badgeText}</span>
             <span class="report-date">${report.date}</span>
           </div>
           <div class="report-title">${report.title}</div>
         </div>
         <div class="report-actions">
-          <a href="${report.file}" target="_blank" download class="btn-pdf btn-view">
+          <a href="${report.file}" target="_blank" ${isExcel ? 'download' : ''} class="btn-pdf btn-view">
             ${actionText}
           </a>
         </div>
@@ -699,7 +699,6 @@
     renderReports(type);
   }
 
-  // 页面加载完成渲染报告列表
   document.addEventListener('DOMContentLoaded', () => renderReports('all'));
 </script>
 
