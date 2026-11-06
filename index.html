@@ -46,32 +46,9 @@
       gap: 14px;
     }
 
-    .logo-mark {
-      width: 36px;
+    .logo img {
       height: 36px;
-      background: var(--blue);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .logo-mark svg { width: 20px; height: 20px; fill: white; }
-
-    .logo-text {
-      font-family: 'DM Serif Display', serif;
-      color: white;
-      font-size: 18px;
-      letter-spacing: 0.3px;
-    }
-
-    .logo-sub {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-top: 1px;
+      width: auto;
     }
 
     .header-tag {
@@ -120,22 +97,6 @@
       font-weight: 300;
     }
 
-    /* ── SECTION TITLES ── */
-    .section-header {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 48px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 28px;
-      color: var(--ink);
-    }
-
     /* ── YEAR NAV ── */
     .year-nav {
       max-width: 1200px;
@@ -170,7 +131,7 @@
     .grid-section {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 48px 80px;
+      padding: 0 48px 60px;
     }
 
     .month-grid {
@@ -284,6 +245,18 @@
     }
 
     /* ── MARKET UPDATES SECTION ── */
+    .section-header {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px 20px;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--ink);
+    }
+
     .reports-section {
       max-width: 1200px;
       margin: 0 auto;
@@ -416,7 +389,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* ── RULE LINE ── */
     .rule {
       max-width: 1200px;
       margin: 0 auto 40px;
@@ -428,7 +400,6 @@
       border-top: 1px solid var(--border);
     }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       header { padding: 0 20px; }
       .hero { padding: 40px 20px 36px; }
@@ -436,31 +407,15 @@
       .grid-section, .reports-section, .rule { padding-left: 20px; padding-right: 20px; }
       footer { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
       .month-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-      .reports-grid { grid-template-columns: 1fr; }
       .month-num { font-size: 36px; }
     }
-
-    /* ── ANIMATION ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .hero { animation: fadeUp 0.5s ease both; }
-    .month-card { animation: fadeUp 0.4s ease both; }
   </style>
 </head>
 <body>
 
 <header>
   <div class="logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z"/></svg>
-    </div>
-    <div>
-      <div class="logo-text">Galaxy Futures</div>
-      <div class="logo-sub">Trading Risk Calendar</div>
-    </div>
+    <img src="data:image/png;base64,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" alt="Galaxy Futures Logo">
   </div>
   <div class="header-tag">Overseas Dept.</div>
 </header>
@@ -478,136 +433,56 @@
 <div class="grid-section">
   <div class="month-grid">
     <a href="calendars/2026-01.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">01</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">January</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">01</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">January</div><div class="month-year">2026</div></div>
     </a>
-
     <a href="calendars/2026-02.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">02</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">February</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">02</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">February</div><div class="month-year">2026</div></div>
     </a>
-
     <a href="calendars/2026-03.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">03</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">March</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">03</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">March</div><div class="month-year">2026</div></div>
     </a>
-
     <a href="calendars/2026-04.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">04</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">April</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">04</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">April</div><div class="month-year">2026</div></div>
     </a>
-
     <a href="calendars/2026-05.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">05</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">May</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">05</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">May</div><div class="month-year">2026</div></div>
     </a>
-
     <a href="calendars/2026-06.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">06</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">June</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">06</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">June</div><div class="month-year">2026</div></div>
     </a>
-
     <a href="calendars/2026-07.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">07</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">July</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">07</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">July</div><div class="month-year">2026</div></div>
     </a>
-
     <a href="calendars/2026-08.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">08</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">August</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">08</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">August</div><div class="month-year">2026</div></div>
     </a>
-
     <a href="calendars/2026-09.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">09</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">September</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">09</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">September</div><div class="month-year">2026</div></div>
     </a>
-
     <a href="calendars/2026-10.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">10</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">October</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">10</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">October</div><div class="month-year">2026</div></div>
     </a>
-
     <a href="calendars/2026-11.html" class="month-card current">
-      <div class="card-top">
-        <div class="month-num">11</div>
-        <div class="status-dot"></div>
-      </div>
+      <div class="card-top"><div class="month-num">11</div><div class="status-dot"></div></div>
       <div class="card-bottom">
         <div class="month-name">November</div>
         <div class="month-year">2026</div>
         <span class="current-badge">Current</span>
       </div>
     </a>
-
     <a href="calendars/2026-12.html" class="month-card available">
-      <div class="card-top">
-        <div class="month-num">12</div>
-        <div class="status-dot"></div>
-      </div>
-      <div class="card-bottom">
-        <div class="month-name">December</div>
-        <div class="month-year">2026</div>
-      </div>
+      <div class="card-top"><div class="month-num">12</div><div class="status-dot"></div></div>
+      <div class="card-bottom"><div class="month-name">December</div><div class="month-year">2026</div></div>
     </a>
   </div>
 </div>
@@ -637,13 +512,12 @@
 </footer>
 
 <script>
-  // 报告配置文件（可根据需要添加 PDF 或 Excel 文件）
   const reportsData = [
     {
       title: "Monthly Market Update — October",
       type: "monthly",
       date: "2026-11-06",
-      file: "reports/Galaxy Futures - Monthly Wrap of Trading Volume & Turnover in China Futures Market - October. 2026.xlsx"
+      file: "Galaxy Futures - Monthly Wrap of Trading Volume & Turnover in China Futures Market - October. 2026.xlsx"
     }
   ];
 
