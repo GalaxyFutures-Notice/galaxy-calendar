@@ -680,18 +680,23 @@
     filtered.forEach(report => {
       const card = document.createElement('div');
       card.className = 'report-card';
+      
+      // 根据文件类型判断按钮文案与颜色/标签
+      const isExcel = report.fileType === 'excel' || report.file.endsWith('.xlsx') || report.file.endsWith('.xls');
+      const actionText = isExcel ? 'Download Excel' : 'View PDF';
+      const badgeClass = isExcel ? 'excel-badge' : report.type;
+
       card.innerHTML = `
         <div>
           <div class="report-meta">
-            <span class="report-badge ${report.type}">${report.type}</span>
+            <span class="report-badge ${badgeClass}">${report.type} ${isExcel ? '· EXCEL' : '· PDF'}</span>
             <span class="report-date">${report.date}</span>
           </div>
           <div class="report-title">${report.title}</div>
         </div>
         <div class="report-actions">
-          <a href="${report.file}" target="_blank" class="btn-pdf btn-view">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            View / Download PDF
+          <a href="${report.file}" target="_blank" download class="btn-pdf btn-view">
+            ${actionText}
           </a>
         </div>
       `;
