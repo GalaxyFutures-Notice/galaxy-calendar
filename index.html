@@ -46,9 +46,33 @@
       gap: 14px;
     }
 
-    .logo img {
+    /* 精准控制外部 Logo 图片大小，完美适配原有布局 */
+    .logo-img {
+      width: 36px;
       height: 36px;
-      width: auto;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .logo-text-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text {
+      font-family: 'DM Serif Display', serif;
+      color: white;
+      font-size: 18px;
+      letter-spacing: 0.3px;
+    }
+
+    .logo-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 1px;
     }
 
     .header-tag {
@@ -61,7 +85,7 @@
 
     /* ── HERO ── */
     .hero {
-      padding: 72px 48px 56px;
+      padding: 72px 48px 40px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -97,6 +121,22 @@
       font-weight: 300;
     }
 
+    /* ── SECTION TITLES ── */
+    .section-header {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--ink);
+    }
+
     /* ── YEAR NAV ── */
     .year-nav {
       max-width: 1200px;
@@ -105,7 +145,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
     .year-btn {
@@ -127,7 +167,7 @@
       border-color: var(--ink);
     }
 
-    /* ── GRID ── */
+    /* ── GRID SECTION ── */
     .grid-section {
       max-width: 1200px;
       margin: 0 auto;
@@ -245,18 +285,6 @@
     }
 
     /* ── MARKET UPDATES SECTION ── */
-    .section-header {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 48px 20px;
-    }
-
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 28px;
-      color: var(--ink);
-    }
-
     .reports-section {
       max-width: 1200px;
       margin: 0 auto;
@@ -371,6 +399,18 @@
 
     .btn-view:hover { background: var(--blue); color: white; }
 
+    /* ── RULE LINE ── */
+    .rule {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 48px;
+    }
+
+    .rule hr {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
@@ -389,24 +429,14 @@
       letter-spacing: 0.5px;
     }
 
-    .rule {
-      max-width: 1200px;
-      margin: 0 auto 40px;
-      padding: 0 48px;
-    }
-
-    .rule hr {
-      border: none;
-      border-top: 1px solid var(--border);
-    }
-
+    /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       header { padding: 0 20px; }
       .hero { padding: 40px 20px 36px; }
-      .year-nav { padding: 0 20px; }
-      .grid-section, .reports-section, .rule { padding-left: 20px; padding-right: 20px; }
+      .section-header, .year-nav, .grid-section, .reports-section, .rule { padding-left: 20px; padding-right: 20px; }
       footer { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
-      .month-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      .month-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .reports-grid { grid-template-columns: 1fr; }
       .month-num { font-size: 36px; }
     }
   </style>
@@ -415,15 +445,27 @@
 
 <header>
   <div class="logo">
-    <img src="data:image/png;base64,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" alt="Galaxy Futures Logo">
+    <!-- 请将 logo.png (或 logo.svg) 放在项目根目录下 -->
+    <img src="logo.png" alt="Galaxy Futures Logo" class="logo-img">
+    <div class="logo-text-group">
+      <div class="logo-text">Galaxy Futures</div>
+      <div class="logo-sub">TRADING RISK CALENDAR</div>
+    </div>
   </div>
-  <div class="header-tag">Overseas Dept.</div>
+  <div class="header-tag">OVERSEAS DEPT.</div>
 </header>
 
 <div class="hero">
   <div class="hero-label">Market Risk & Operational Schedule</div>
   <h1>Institutional <em>Trading</em> Calendar & Market Updates</h1>
   <p class="hero-desc">Key operational dates, market closures, option exercise timelines, and weekly/monthly reports for internationalized domestic futures contracts.</p>
+</div>
+
+<div class="rule"><hr></div>
+
+<!-- ── MONTHLY CALENDARS ── -->
+<div class="section-header">
+  <div class="section-title">Trading Calendars</div>
 </div>
 
 <div class="year-nav">
