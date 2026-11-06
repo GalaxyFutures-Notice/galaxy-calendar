@@ -84,7 +84,7 @@
 
     /* ── HERO ── */
     .hero {
-      padding: 72px 48px 40px;
+      padding: 72px 48px 56px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -144,7 +144,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
     .year-btn {
@@ -166,11 +166,11 @@
       border-color: var(--ink);
     }
 
-    /* ── GRID SECTION ── */
+    /* ── GRID ── */
     .grid-section {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 48px 60px;
+      padding: 0 48px 80px;
     }
 
     .month-grid {
@@ -215,6 +215,12 @@
 
     .month-card:hover::before { transform: scaleX(1); }
 
+    .month-card.unavailable {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
     .month-card.current {
       border-color: var(--blue);
       background: linear-gradient(135deg, #f0f5ff 0%, white 60%);
@@ -235,14 +241,17 @@
       color: var(--ink);
     }
 
+    .month-card.unavailable .month-num { color: var(--border); }
+
     .status-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #22c55e;
+      background: var(--border);
       margin-top: 6px;
     }
 
+    .month-card.available .status-dot { background: #22c55e; }
     .month-card.current .status-dot {
       background: var(--blue);
       box-shadow: 0 0 0 3px rgba(26,86,219,0.2);
@@ -389,18 +398,6 @@
 
     .btn-view:hover { background: var(--blue); color: white; }
 
-    /* ── RULE LINE ── */
-    .rule {
-      max-width: 1200px;
-      margin: 0 auto 40px;
-      padding: 0 48px;
-    }
-
-    .rule hr {
-      border: none;
-      border-top: 1px solid var(--border);
-    }
-
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
@@ -419,13 +416,26 @@
       letter-spacing: 0.5px;
     }
 
+    /* ── RULE LINE ── */
+    .rule {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 48px;
+    }
+
+    .rule hr {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       header { padding: 0 20px; }
       .hero { padding: 40px 20px 36px; }
-      .section-header, .year-nav, .grid-section, .reports-section, .rule { padding-left: 20px; padding-right: 20px; }
+      .year-nav { padding: 0 20px; }
+      .grid-section, .reports-section, .rule { padding-left: 20px; padding-right: 20px; }
       footer { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
-      .month-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .month-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
       .reports-grid { grid-template-columns: 1fr; }
       .month-num { font-size: 36px; }
     }
@@ -437,7 +447,7 @@
     }
 
     .hero { animation: fadeUp 0.5s ease both; }
-    .month-card, .report-card { animation: fadeUp 0.4s ease both; }
+    .month-card { animation: fadeUp 0.4s ease both; }
   </style>
 </head>
 <body>
@@ -461,70 +471,143 @@
   <p class="hero-desc">Key operational dates, market closures, option exercise timelines, and weekly/monthly reports for internationalized domestic futures contracts.</p>
 </div>
 
-<div class="rule"><hr></div>
-
-<!-- ── MONTHLY CALENDARS ── -->
-<div class="section-header">
-  <div class="section-title">Trading Calendars</div>
-</div>
-
 <div class="year-nav">
   <button class="year-btn active">2026</button>
 </div>
 
 <div class="grid-section">
   <div class="month-grid">
-    <a href="calendars/2026-01.html" class="month-card">
-      <div class="card-top"><div class="month-num">01</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">January</div><div class="month-year">2026</div></div>
+    <a href="calendars/2026-01.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">01</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">January</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
-    <a href="calendars/2026-02.html" class="month-card">
-      <div class="card-top"><div class="month-num">02</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">February</div><div class="month-year">2026</div></div>
+
+    <a href="calendars/2026-02.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">02</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">February</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
-    <a href="calendars/2026-03.html" class="month-card">
-      <div class="card-top"><div class="month-num">03</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">March</div><div class="month-year">2026</div></div>
+
+    <a href="calendars/2026-03.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">03</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">March</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
-    <a href="calendars/2026-04.html" class="month-card">
-      <div class="card-top"><div class="month-num">04</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">April</div><div class="month-year">2026</div></div>
+
+    <a href="calendars/2026-04.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">04</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">April</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
-    <a href="calendars/2026-05.html" class="month-card">
-      <div class="card-top"><div class="month-num">05</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">May</div><div class="month-year">2026</div></div>
+
+    <a href="calendars/2026-05.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">05</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">May</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
-    <a href="calendars/2026-06.html" class="month-card">
-      <div class="card-top"><div class="month-num">06</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">June</div><div class="month-year">2026</div></div>
+
+    <a href="calendars/2026-06.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">06</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">June</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
-    <a href="calendars/2026-07.html" class="month-card">
-      <div class="card-top"><div class="month-num">07</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">July</div><div class="month-year">2026</div></div>
+
+    <a href="calendars/2026-07.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">07</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">July</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
-    <a href="calendars/2026-08.html" class="month-card">
-      <div class="card-top"><div class="month-num">08</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">August</div><div class="month-year">2026</div></div>
+
+    <a href="calendars/2026-08.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">08</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">August</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
-    <a href="calendars/2026-09.html" class="month-card">
-      <div class="card-top"><div class="month-num">09</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">September</div><div class="month-year">2026</div></div>
+
+    <a href="calendars/2026-09.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">09</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">September</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
-    <a href="calendars/2026-10.html" class="month-card">
-      <div class="card-top"><div class="month-num">10</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">October</div><div class="month-year">2026</div></div>
+
+    <a href="calendars/2026-10.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">10</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">October</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
+
     <a href="calendars/2026-11.html" class="month-card current">
-      <div class="card-top"><div class="month-num">11</div><div class="status-dot"></div></div>
+      <div class="card-top">
+        <div class="month-num">11</div>
+        <div class="status-dot"></div>
+      </div>
       <div class="card-bottom">
         <div class="month-name">November</div>
         <div class="month-year">2026</div>
         <span class="current-badge">Current</span>
       </div>
     </a>
-    <a href="calendars/2026-12.html" class="month-card">
-      <div class="card-top"><div class="month-num">12</div><div class="status-dot"></div></div>
-      <div class="card-bottom"><div class="month-name">December</div><div class="month-year">2026</div></div>
+
+    <a href="calendars/2026-12.html" class="month-card available">
+      <div class="card-top">
+        <div class="month-num">12</div>
+        <div class="status-dot"></div>
+      </div>
+      <div class="card-bottom">
+        <div class="month-name">December</div>
+        <div class="month-year">2026</div>
+      </div>
     </a>
   </div>
 </div>
